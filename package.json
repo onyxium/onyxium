@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "turbo": "^1.4.2"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "build:ae": "turbo run api-extractor -- --local",
+    "test": "turbo run test",
+    "lint": "turbo run lint"
+  }
+}

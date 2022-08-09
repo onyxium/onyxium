@@ -1,0 +1,10 @@
+node_modules
+
+# Turborepo
+.turbo
+
+# Build
+dist
+
+# Temporary files
+common/temp

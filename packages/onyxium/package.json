@@ -1,0 +1,26 @@
+{
+  "name": "onyxium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.mjs",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.mjs",
+    "dist/onyxium.d.ts"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "api-extractor": "api-extractor run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.29.0",
+    "configs": "workspace:*",
+    "tsup": "^6.2.1",
+    "typescript": "^4.7.4"
+  }
+}

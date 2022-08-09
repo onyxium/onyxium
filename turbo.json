@@ -1,0 +1,21 @@
+{
+  "baseBranch": "origin/main",
+
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "api-extractor": {
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts"]
+    },
+    "lint": {
+      "outputs": []
+    }
+  }
+}
