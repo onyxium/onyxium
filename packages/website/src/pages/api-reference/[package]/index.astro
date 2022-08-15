@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from "astro";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+import { getKinds, model } from "../../../utils/model";
+import slugify from 'slugify'
+
+export interface Props {
+    kinds: string[];
+    pkg: string
+}
+
+export const getStaticPaths: GetStaticPaths = async ({ }) => {
+    return model.packages.map((pkg) => ({
+        params: {
+            package: slugify(pkg.displayName)
+        },
+        props: {
+            kinds: getKinds(pkg),
+            pkg: pkg.displayName
+        }
+    }))
+}
+const { kinds, pkg } = Astro.props as Props
+---
+
+<DocsLayout title={`Item types for ${pkg}`} subtitle={`The list of item types for the ${pkg} package`}>
+    <ul>
+        {kinds.map(kind => <li>
+            <a href={`/api-reference/${slugify(pkg)}/${slugify(kind)}`}>
+                {kind}
+            </a>
+        </li>)
+        }
+    </ul>
+</DocsLayout>

@@ -1,0 +1,11 @@
+{
+    "prettier.configPath": ".prettierrc.js",
+    "prettier.prettierPath": "node_modules/prettier",
+    "prettier.documentSelectors": [
+        "**/*.astro"
+    ],
+    "prettier.enableDebugLogs": true,
+    "[astro]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

@@ -1,0 +1,12 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { model } from "../../utils/model";
+import slugify from "slugify";
+
+export const packages = model.packages.map((pkg) => pkg.displayName)
+
+---
+
+<DocsLayout>
+    {packages.map((name) => <a href={`/api-reference/${slugify(name)}`}>{name}</a>)}
+</DocsLayout>

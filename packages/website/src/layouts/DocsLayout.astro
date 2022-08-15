@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Drawer from '../components/Drawer';
+import Header, { headerHeight } from '../components/Header.astro';
+
+export interface Props {
+    title: string
+    subtitle?: string
+}
+
+const { title, subtitle } = Astro.props as Props
+---
+
+<BaseLayout title={title}>
+    <Header />
+    <Drawer client:load>
+        <div class="px-2">
+            <a href="/" class="w-full flex items-center font-semibold px-4" style={{ height: headerHeight }}>
+                <svg class="w-7 h-7 mr-1" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 80L9.23076 65.708L1.53845 40.5128L9.23076 14.2946L40 0V80Z" fill="#6C00D9"></path>
+                    <path d="M40 80L70.7692 65.708L78.4615 40.5128L70.7692 14.2946L40 0V80Z" fill="#C63091"></path>
+                    <circle cx="40" cy="40" r="17" stroke="white" stroke-width="6"></circle>
+                </svg>
+                Onyxium
+            </a>
+        </div>
+    </Drawer>
+    <main class="absolute overflow-auto px-4 py-2" style={{ width: 'calc(100% - var(--drawer-width))' ,
+        left: 'var(--drawer-width)' , top: headerHeight }}>
+        <h1 class={`text-4xl font-extrabold ${subtitle ? 'mb-2' : 'mb-6' }`}>{title}</h1>
+        {subtitle && <p class="text-xl text-[#999BAB] font-normal mb-6">
+            {subtitle}
+        </p>}
+        <slot />
+    </main>
+</BaseLayout>

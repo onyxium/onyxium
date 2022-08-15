@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from "astro";
+import slugify from "slugify";
+import DocsLayout from "../../../../layouts/DocsLayout.astro";
+import { model, recursiveGetMembers } from "../../../../utils/model";
+
+export const getStaticPaths: GetStaticPaths = async ({ }) => {
+    return model.packages.flatMap((pkg) => pkg.entryPoints.flatMap((entryPoint) =>
+        recursiveGetMembers(entryPoint).flatMap((member) => ({
+            params: {
+                package: slugify(pkg.displayName),
+                kind: slugify(member.kind),
+                item: slugify(member.displayName),
+            }
+        }))))
+}
+---
+
+<DocsLayout></DocsLayout>

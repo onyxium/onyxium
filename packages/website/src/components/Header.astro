@@ -1,0 +1,40 @@
+---
+import { MenuButton } from "./MenuButton"
+export const headerHeight = "3rem"
+---
+
+<header
+  class="border-b border-b-paper flex items-center py-2 px-4 fixed z-30"
+  style={{
+    width: `calc(100% - var(--drawer-width))`,
+    left: `var(--drawer-width)`,
+    height: headerHeight,
+  }}
+>
+  <MenuButton client:visible />
+  <div class="ml-auto space-x-2">
+    <a
+      href="/docs/"
+      class={Astro.url.pathname.includes("/docs")
+        ? "text-primary-contrast"
+        : "text-[#95A1B2]"}
+    >
+      Docs
+    </a>
+    <a
+      href="/api-reference/"
+      class={Astro.url.pathname.includes("/api-reference")
+        ? "text-primary-contrast"
+        : "text-[#95A1B2]"}
+    >
+      API
+    </a>
+  </div>
+</header>
+
+<style>
+  header {
+    background-color: transparent;
+    backdrop-filter: blur(6px);
+  }
+</style>

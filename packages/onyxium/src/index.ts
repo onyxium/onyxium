@@ -2,5 +2,5 @@
  * @public
  */
 export function onyxium() {
-  return 'Hello, Onyxium!'
+  return "Hello, Onyxium!"
 }

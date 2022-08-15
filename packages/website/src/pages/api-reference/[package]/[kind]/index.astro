@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from "astro";
+import slugify from "slugify";
+import DocsLayout from "../../../../layouts/DocsLayout.astro";
+import { getKinds, model } from "../../../../utils/model";
+
+export const getStaticPaths: GetStaticPaths = async ({ }) => {
+    return model.packages.flatMap((pkg) =>
+        getKinds(pkg).flatMap((kind) => ({
+            params: {
+                package: slugify(pkg.displayName),
+                kind: slugify(kind),
+            }
+        })
+        ))
+}
+---
+
+<DocsLayout></DocsLayout>
