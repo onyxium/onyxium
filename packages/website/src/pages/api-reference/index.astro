@@ -1,12 +1,51 @@
 ---
-import DocsLayout from "../../layouts/DocsLayout.astro";
-import { model } from "../../utils/model";
-import slugify from "slugify";
+import DocsLayout from "../../layouts/DocsLayout.astro"
+import { model, tsdocNodeContainerToData } from "../../utils/model"
+import slugify from "slugify"
+import ArrayDataToComponent from "../../components/ArrayDataToComponent.astro"
 
-export const packages = model.packages.map((pkg) => pkg.displayName)
-
+export const packages = model.packages.map((pkg) => {
+  const summary =
+    pkg.tsdocComment &&
+    tsdocNodeContainerToData(pkg.tsdocComment.summarySection)
+  return {
+    name: pkg.displayName,
+    summary,
+  }
+})
 ---
 
-<DocsLayout>
-    {packages.map((name) => <a href={`/api-reference/${slugify(name)}`}>{name}</a>)}
+<DocsLayout
+  title="Documented packages"
+  subtitle="The list of all documented Onyxium packages"
+>
+  <table class="w-full">
+    <thead>
+      <tr class="text-left">
+        <th class="border border-paper py-2 px-3">Name</th>
+        <th class="border border-paper py-2 px-3">Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        packages.map((pkg) => (
+          <tr>
+            <td class="border-paper border py-2 px-3">
+              <a
+                class="text-primary-contrast underline"
+                href={`/api-reference/${slugify(pkg.name)}`}
+              >
+                {pkg.name}
+              </a>
+            </td>
+            <td class="border-paper border py-2 px-3">
+              <ArrayDataToComponent
+                data={(pkg.summary as never) ?? "No summary"}
+              />
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
 </DocsLayout>

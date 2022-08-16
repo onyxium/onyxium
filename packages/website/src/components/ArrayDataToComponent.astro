@@ -1,0 +1,19 @@
+---
+import type { tsdocNodeContainerToData } from "../utils/model"
+import DataToComponent from "./DataToComponent.astro"
+
+export interface Props {
+  data: ReturnType<typeof tsdocNodeContainerToData>
+}
+const { data } = Astro.props as Props
+---
+
+{
+  Array.isArray(data) ? (
+    data
+      .flatMap((data) => (typeof data === "string" ? [data] : data))
+      .map((data) => <DataToComponent data={data} />)
+  ) : (
+    <DataToComponent data={data} />
+  )
+}

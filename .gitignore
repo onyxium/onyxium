@@ -10,3 +10,6 @@ tsdoc-metadata.json
 
 # Temporary files
 common/temp
+
+# MacOS Files
+.DS_Store

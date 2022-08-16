@@ -6,12 +6,12 @@ importers:
     specifiers:
       prettier: ^2.7.1
       prettier-plugin-astro: ^0.5.0
-      prettier-plugin-tailwindcss: github:daimond113/prettier-plugin-tailwindcss#7713a95
+      prettier-plugin-tailwindcss: 0.1.13
       turbo: ^1.4.3
     devDependencies:
       prettier: 2.7.1
       prettier-plugin-astro: 0.5.0
-      prettier-plugin-tailwindcss: github.com/daimond113/prettier-plugin-tailwindcss/7713a95_prettier@2.7.1
+      prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
       turbo: 1.4.3
 
   packages/configs:
@@ -3577,6 +3577,15 @@ packages:
       synckit: 0.7.3
     dev: true
 
+  /prettier-plugin-tailwindcss/0.1.13_prettier@2.7.1:
+    resolution: {integrity: sha512-/EKQURUrxLu66CMUg4+1LwGdxnz8of7IDvrSLqEtDqhLH61SAlNNUSr90UTvZaemujgl3OH/VHg+fyGltrNixw==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      prettier: '>=2.2.0'
+    dependencies:
+      prettier: 2.7.1
+    dev: true
+
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
@@ -4850,16 +4859,4 @@ packages:
 
   /zwitch/2.0.2:
     resolution: {integrity: sha512-JZxotl7SxAJH0j7dN4pxsTV6ZLXoLdGME+PsjkL/DaBrVryK9kTGq06GfKrwcSOqypP+fdXGoCHE36b99fWVoA==}
-    dev: true
-
-  github.com/daimond113/prettier-plugin-tailwindcss/7713a95_prettier@2.7.1:
-    resolution: {tarball: https://codeload.github.com/daimond113/prettier-plugin-tailwindcss/tar.gz/7713a95}
-    id: github.com/daimond113/prettier-plugin-tailwindcss/7713a95
-    name: prettier-plugin-tailwindcss
-    version: 0.1.13
-    engines: {node: '>=12.17.0'}
-    peerDependencies:
-      prettier: '>=2.2.0'
-    dependencies:
-      prettier: 2.7.1
     dev: true

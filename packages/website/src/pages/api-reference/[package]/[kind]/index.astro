@@ -1,19 +1,97 @@
 ---
-import type { GetStaticPaths } from "astro";
-import slugify from "slugify";
-import DocsLayout from "../../../../layouts/DocsLayout.astro";
-import { getKinds, model } from "../../../../utils/model";
+import { ApiItemKind } from "@microsoft/api-extractor-model"
+import type { GetStaticPaths } from "astro"
+import Code from "astro/components/Code.astro"
+import slugify from "slugify"
+import ArrayDataToComponent from "../../../../components/ArrayDataToComponent.astro"
+import DocsLayout from "../../../../layouts/DocsLayout.astro"
+import {
+  makeDataForPackage,
+  getKinds,
+  model,
+  recursiveGetMembers,
+  ApiData,
+} from "../../../../utils/model"
 
-export const getStaticPaths: GetStaticPaths = async ({ }) => {
-    return model.packages.flatMap((pkg) =>
-        getKinds(pkg).flatMap((kind) => ({
-            params: {
-                package: slugify(pkg.displayName),
-                kind: slugify(kind),
-            }
-        })
-        ))
+export interface Props {
+  members: ApiData["members"]
+  kind: ApiItemKind
+  pkg: string
 }
+
+export const getStaticPaths: GetStaticPaths = async ({}) => {
+  return await Promise.all(
+    model.packages.flatMap(async (pkg) => {
+      const apiData = await Promise.all(
+        pkg.entryPoints.flatMap(async (ep) => await makeDataForPackage(pkg, ep))
+      )
+      return await Promise.all(
+        getKinds(pkg).flatMap(async (kind) => ({
+          params: {
+            package: slugify(pkg.displayName),
+            kind: slugify(kind),
+          },
+          props: {
+            members: apiData
+              .flatMap((data) => data.members)
+              .filter((member) => member.kind === kind),
+            kind,
+            pkg: pkg.displayName,
+          },
+        }))
+      )
+    })
+  )
+}
+const { members, kind, pkg } = Astro.props as Props
+const shouldDisplayTypeKinds: ApiItemKind[] = [
+  ApiItemKind.Property,
+  ApiItemKind.PropertySignature,
+  ApiItemKind.Variable,
+]
+const shouldDisplayType = shouldDisplayTypeKinds.includes(kind)
 ---
 
-<DocsLayout></DocsLayout>
+<DocsLayout title={`${kind} items`}>
+  <table class="w-full">
+    <thead>
+      <tr class="text-left">
+        <th class="border border-paper py-2 px-3">Name</th>
+        {
+          shouldDisplayType && (
+            <th class="border-paper border py-2 px-3">Type</th>
+          )
+        }
+        <th class="border border-paper py-2 px-3">Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        members.map(({ name, type, summary }) => (
+          <tr>
+            <td class="border-paper border py-2 px-3">
+              <a
+                class="text-primary-contrast underline"
+                href={`/api-reference/${slugify(pkg)}/${slugify(
+                  kind
+                )}/${slugify(name)}`}
+              >
+                {name}
+              </a>
+            </td>
+            {shouldDisplayType && (
+              <td class="border-paper border py-2 px-3">
+                <ArrayDataToComponent
+                  data={(type as never) ?? "Unknown type"}
+                />
+              </td>
+            )}
+            <td class="border-paper border py-2 px-3">
+              <ArrayDataToComponent data={(summary as never) ?? "No summary"} />
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</DocsLayout>

@@ -1,0 +1,23 @@
+---
+import type { NodeToData } from "../utils/model"
+import { Code } from "astro/components"
+
+export interface Props {
+  data: NodeToData
+}
+const { data } = Astro.props as Props
+---
+
+{
+  typeof data === "string" ? (
+    data
+  ) : data.kind === "LinkTag" ? (
+    // Indenting this seems to cause an additional space after link text.
+    // prettier-ignore
+    <a class="text-primary-contrast underline" href={data.linkUrl}>{data.linkText}</a>
+  ) : data.kind === "CodeSpan" ? (
+    <code>{data.code}</code>
+  ) : (
+    <Code code={data.code} lang={data.language as never} />
+  )
+}
